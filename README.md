@@ -1,6 +1,6 @@
 Project Description:
 
-This project is based on developing deep learning algorithms and training them to classify Pnueomonia XRAYs. Our members selected for models and they have trained their models.
+This project is based on developing deep learning algorithms and training them to classify Pnueomonia XRAYs. Our members selected four models and they have trained their models.
 The project is associated with SLIIT.
 
 Group members:
