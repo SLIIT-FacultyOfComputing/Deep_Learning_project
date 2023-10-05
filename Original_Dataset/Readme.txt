@@ -1,0 +1,1 @@
+To obtain the original dataset please visit the repository:https://www.kaggle.com/datasets/lasaljaywardena/pneumonia-chest-x-ray-dataset
