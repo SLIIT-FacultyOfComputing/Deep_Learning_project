@@ -1,0 +1,1 @@
+The  model used in this study is EfficientNet.
