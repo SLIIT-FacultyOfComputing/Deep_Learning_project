@@ -4,12 +4,13 @@ from tensorflow.keras.layers import Dense, Flatten, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import matplotlib.pyplot as plt
+import pickle
 
-# Define the data directory
-#data_dir = 'D:\\SLIIT\\Y4S2\SE4050 - DL\\Assignmentts\\pneumonia_classification\\Data_set\\train'
+# load the training data set
 data_dir = 'D:\\SLIIT\\Y4S2\SE4050 - DL\\Assignmentts\\Deep_Learning_project\\IT20095062\\Data_set\\train'
 
-# Define image size and batch size
+# set image size and batch size
 img_width, img_height = 224, 224
 batch_size = 32
 
@@ -19,15 +20,15 @@ train_datagen = ImageDataGenerator(
     shear_range=0.2,
     zoom_range=0.2,
     horizontal_flip=True,
-    validation_split=0.2  # Split data into training and validation
+    validation_split=0.2  
 )
 
 train_generator = train_datagen.flow_from_directory(
     data_dir,
     target_size=(img_width, img_height),
     batch_size=batch_size,
-    class_mode='binary',  # For binary classification (pneumonia or normal)
-    subset='training'  # Specify this as the training set
+    class_mode='binary',  
+    subset='training' 
 )
 
 validation_generator = train_datagen.flow_from_directory(
@@ -35,10 +36,10 @@ validation_generator = train_datagen.flow_from_directory(
     target_size=(img_width, img_height),
     batch_size=batch_size,
     class_mode='binary',
-    subset='validation'  # Specify this as the validation set
+    subset='validation' 
 )
 
-# Load the VGG16 model with pre-trained weights (excluding the top layer)
+# Load the VGG16 model with pre-trained weights
 base_model = VGG16(weights='imagenet', include_top=False, input_shape=(img_width, img_height, 3))
 
 # Freeze the layers in the base model
@@ -58,12 +59,16 @@ model = Model(inputs=base_model.input, outputs=output)
 model.compile(optimizer=Adam(lr=0.0001), loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs = 10  # Adjust as needed
-model.fit(
+epochs = 10  
+history = model.fit(
     train_generator,
     epochs=epochs,
     validation_data=validation_generator
 )
 
 # Save the trained model
-model.save('pneumonia_vgg16_model.h5')
+model.save('pneumonia_vgg16_model2.h5')
+
+# Save the trained history of the model
+with open('pneumonia_vgg16_history2.pkl', 'wb') as file:
+    pickle.dump(history.history, file)
